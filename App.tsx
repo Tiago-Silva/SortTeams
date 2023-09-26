@@ -217,7 +217,7 @@ function App(): JSX.Element {
           </View>
       </ScrollView>
       <ImageBackground
-          source={require('./futviva.jpeg')} resizeMode="contain"
+          source={require('./public/futviva.jpeg')} resizeMode="contain"
           style={[styles.fixed, {zIndex: -1}]}
           />
     </SafeAreaView>
