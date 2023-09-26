@@ -2,6 +2,11 @@
 Aplicativo simples para sorteio de times feito com React e Typescript.
 
 
+<h1 align="center">
+    <img src="./public/tela01.png" width="300"/>
+    <img src="./public/tela02.png" width="300"/>
+</h1>
+
 
 ## 💻 Requisitos
 
