@@ -37,11 +37,12 @@ function App(): JSX.Element {
   const [teamSize, setTeamSize] = useState<string>('');
   const [teams, setTeams] = useState<string[][]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [totalPlayers, setTotalPlayers] = useState<number>(0);
 
   const handleAddPlayerToCategory = (player: string, index: number, category: 'best' | 'worst' | 'normal') => {
-    if (player.trim() === '') {
-      return; // Não adicione jogadores vazios
-    }
+    // if (player.trim() === '') {
+    //   return; //não adiciona jogador vazio
+    // }
 
     if (category === 'best') {
       // setBestPlayers([...bestPlayers, player]);
@@ -83,12 +84,14 @@ function App(): JSX.Element {
 
   const handleAddBestPlayer = () => {
     if (bestPlayers.length < 10) {
+      addTotalPlayers(1);
       setBestPlayers([...bestPlayers, '']);
     }
   };
 
   const handleRemoveBestPlayer = () => {
     if (bestPlayers.length > 0) {
+      removeTotalPlayers(1);
       const updatedPlayers = [...bestPlayers];
       updatedPlayers.pop();
       setBestPlayers(updatedPlayers);
@@ -97,12 +100,14 @@ function App(): JSX.Element {
 
   const handleAddWorstPlayer = () => {
     if (worstPlayers.length < 10) {
+      addTotalPlayers(1);
       setWorstPlayers([...worstPlayers, '']);
     }
   };
 
   const handleRemoveWorstPlayer = () => {
     if (worstPlayers.length > 0) {
+      removeTotalPlayers(1);
       const updatedPlayers = [...worstPlayers];
       updatedPlayers.pop();
       setWorstPlayers(updatedPlayers);
@@ -111,12 +116,14 @@ function App(): JSX.Element {
 
   const handleAddNormalPlayer = () => {
     if (normalPlayers.length < 40) {
+      addTotalPlayers(1);
       setNormalPlayers([...normalPlayers, '']);
     }
   };
 
   const handleRemoveNormalPlayer = () => {
     if (normalPlayers.length > 0) {
+      removeTotalPlayers(1);
       const updatedPlayers = [...normalPlayers];
       updatedPlayers.pop();
       setNormalPlayers(updatedPlayers);
@@ -140,6 +147,14 @@ function App(): JSX.Element {
     updatedNormalPlayers[index] = text;
     setNormalPlayers(updatedNormalPlayers);
   };
+
+  const addTotalPlayers = (value: number) => {
+    setTotalPlayers(totalPlayers + value);
+  };
+
+  const removeTotalPlayers = (value: number) => {
+    setTotalPlayers(totalPlayers - value);
+  }
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -195,6 +210,7 @@ function App(): JSX.Element {
               onChangeText={(text) => setTeamSize(text)}
               keyboardType="numeric"
             />
+            <Text style={{ fontSize: 20 }}>Total de jogadores: {totalPlayers}</Text>
             {isVisible 
               ? <Button title="Limpar times" onPress={handleCleanTeams} />
               : <Button title="Sortear Times" onPress={handleSortTeams} />  }
