@@ -16,6 +16,7 @@ import {
   TextInput,
   useColorScheme,
   View,
+  Alert,
 } from 'react-native';
 
 import {
@@ -45,13 +46,10 @@ function App(): JSX.Element {
     // }
 
     if (category === 'best') {
-      // setBestPlayers([...bestPlayers, player]);
       handleBestPlayerNameChange(player, index);
     } else if (category === 'worst') {
-      // setWorstPlayers([...worstPlayers, player]);
       handleWorstPlayerNameChange(player, index);
     } else if (category === 'normal') {
-      // setNormalPlayers([...normalPlayers, player]);
       handleNormnalPlayerNameChange(player, index);
     }
   };
@@ -61,17 +59,26 @@ function App(): JSX.Element {
     setTeams([]);
   }
 
+  const createAlertNotification = (title:string, message:string) => {
+    Alert.alert(title, message, [
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ]);
+  }
+
   const handleSortTeams = () => {
     if (teamSize && parseInt(teamSize) > 0) {
       const allPlayers = [...shuffle(bestPlayers), ...shuffle(normalPlayers), ...shuffle(worstPlayers)];
 
       const numberOfTeams = Math.ceil(allPlayers.length / parseInt(teamSize));
       const dividedTeams: string[][] = [];
-
+      let z = 0;
       for (let i = 0; i < numberOfTeams; i++) {
         const team = [];
 
-        for (let j = i; j < allPlayers.length; j += numberOfTeams) {
+        if (z == parseInt(teamSize)) { z = 0 }
+        
+        for (let j = i; z < parseInt(teamSize); j += numberOfTeams) {
+          z++;
           team.push(allPlayers[j]);
         }
 
@@ -79,6 +86,8 @@ function App(): JSX.Element {
       }
       setIsVisible(true);
       setTeams(dividedTeams);
+    } else {
+      createAlertNotification('Atenção', 'O campo tamanho de times não pode está vazio');
     }
   };
 
