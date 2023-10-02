@@ -35,17 +35,13 @@ function App(): JSX.Element {
   const [bestPlayers, setBestPlayers] = useState<string[]>([]);
   const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
   const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
-  const [teamSize, setTeamSize] = useState<string>('');
   const [teams, setTeams] = useState<string[][]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [totalPlayers, setTotalPlayers] = useState<number>(0);
 
   const handleAddPlayerToCategory = (player: string, index: number, category: 'best' | 'worst' | 'normal') => {
-    // if (player.trim() === '') {
-    //   return; //não adiciona jogador vazio
-    // }
 
-    if (category === 'best') {
+  if (category === 'best') {
       handleBestPlayerNameChange(player, index);
     } else if (category === 'worst') {
       handleWorstPlayerNameChange(player, index);
@@ -65,34 +61,114 @@ function App(): JSX.Element {
     ]);
   }
 
+  const isVerify = (array:string[]) => {
+    return array.filter(elemento => elemento !== null && elemento !== undefined && elemento !== '');
+  }
+
   const handleSortTeams = () => {
-    if (teamSize && parseInt(teamSize) > 0) {
-      const allPlayers = [...shuffle(bestPlayers), ...shuffle(normalPlayers), ...shuffle(worstPlayers)];
-
-      const numberOfTeams = Math.ceil(allPlayers.length / parseInt(teamSize));
-      const dividedTeams: string[][] = [];
-      let z = 0;
-      for (let i = 0; i < numberOfTeams; i++) {
-        const team = [];
-
-        if (z == parseInt(teamSize)) { z = 0 }
-        
-        for (let j = i; z < parseInt(teamSize); j += numberOfTeams) {
-          z++;
-          team.push(allPlayers[j]);
-        }
-
-        dividedTeams.push(team);
-      }
-      setIsVisible(true);
-      setTeams(dividedTeams);
-    } else {
-      createAlertNotification('Atenção', 'O campo tamanho de times não pode está vazio');
+    
+    if (bestPlayers.length < 2 || worstPlayers.length < 2 || normalPlayers.length < 4) {
+      createAlertNotification('Atenção', 'Melhores e medianos devem ter no mínimo dois jogadores em cada');
+      return;
     }
+
+    if (bestPlayers.length < worstPlayers.length || bestPlayers.length > worstPlayers.length) {
+      createAlertNotification('Atenção', 'Melhores e medianos devem ter a mesma quantidade');
+      return;
+    }
+
+    const dividedTeams: string[][] = [];
+  
+    // Embaralhar jogadores de cada lista
+    // const shuffledBestPlayers = shuffle(bestPlayers);
+    // const shuffledWorstPlayers = shuffle(worstPlayers);
+    // const shuffledNormalPlayers = shuffle(normalPlayers);
+
+    const [oneBest, twoBest, threeBest, fourBest, fiveBest, sixBest, sevenBest, eightBest] = shuffle(bestPlayers);
+    const [oneWorst, twoWorst, threeWorst, fourWorst, fiveWorst, sixWorst, sevenWorst, eightWorst] = shuffle(worstPlayers);
+    const [oneNormal, twoNormal, threeNormal, fourNormal, fiveNormal, sixNormal, sevenNormal, eightNormal,
+        nineNormal, tenNormal, elevenNormal, twelveNormal, thirteenNormal, fourteenNormal, fifteenNormal,
+        sixteenNormal] = shuffle(normalPlayers);
+
+    const team01: string[] = [oneBest, oneWorst, oneNormal, twoNormal];
+    const team02: string[] = [twoBest, twoWorst, threeNormal, fourNormal];
+    let team3: string[] = [];
+    let team4: string[] = [];
+    let team5: string[] = [];
+    let team6: string[] = [];
+    let team7: string[] = [];
+    let team8: string[] = [];
+
+    if (!threeBest) {
+      team3 = [fiveNormal, sixNormal, sevenNormal, eightNormal];
+      team4 = [nineNormal, tenNormal, elevenNormal, twelveNormal];
+      team5 = [thirteenNormal, fourteenNormal, fifteenNormal,sixteenNormal];
+    } else {
+      team3 = [threeBest, threeWorst, fiveNormal, sixNormal];
+    }
+
+    if (!fourBest && threeBest !== undefined && threeBest !== null) {
+      team4 = [sevenNormal, eightNormal, nineNormal, tenNormal];
+      team5 = [elevenNormal, twelveNormal, thirteenNormal, fourteenNormal];
+      team6 = [fifteenNormal, sixteenNormal];
+    } else if (threeBest !== undefined && threeBest !== null) {
+      team4 = [fourBest, fourWorst, sevenNormal, eightNormal];
+    }
+
+    if (!fiveBest && fourBest !== undefined && fourBest !== null) {
+      team5 = [nineNormal, tenNormal, elevenNormal, twelveNormal];
+      team6 = [thirteenNormal, fourteenNormal, fifteenNormal, sixteenNormal];
+    } else if (fourBest !== undefined && fourBest !== null) {
+      team5 = [fiveBest, fiveWorst, nineNormal, tenNormal];
+    }
+
+    if (!sixBest && fiveBest !== undefined && fiveBest !== null) {
+      team6 = [elevenNormal, twelveNormal, thirteenNormal, fourteenNormal];
+      team7 = [fifteenNormal, sixteenNormal];
+    } else if (fiveBest !== undefined && fiveBest !== null) {
+      team6 = [sixBest, sixWorst, elevenNormal, twelveNormal];
+    }
+
+    if (!sevenBest && sixBest !== undefined && sixBest !== null) {
+      team7 = [thirteenNormal, fourteenNormal, fifteenNormal, sixteenNormal];
+    } else if (sixBest !== undefined && sixBest !== null) {
+      team7 = [sevenBest, sevenWorst, thirteenNormal, fourteenNormal];
+    }
+
+    if (!eightBest && sevenBest !== undefined && sevenBest !== null) {
+      team8 = [fifteenNormal, sixteenNormal];
+    } else if (sevenBest !== undefined && sevenBest !== null) {
+      team7 = [eightBest, eightWorst, fifteenNormal, sixteenNormal];
+    }
+
+  
+    // for (let i = 0; i < 8; i++) {
+
+    //   const team: string[] = [
+    //     shuffledBestPlayers[i],
+    //     shuffledWorstPlayers[i],
+    //     ...shuffledNormalPlayers.slice(i * 2, i * 2 + 2)
+    //   ];
+
+    //   dividedTeams.push(isVerify(team));
+    // }
+
+    dividedTeams.push(isVerify(team01));
+    dividedTeams.push(isVerify(team02));
+    dividedTeams.push(isVerify(team3));
+    dividedTeams.push(isVerify(team4));
+    dividedTeams.push(isVerify(team5));
+    dividedTeams.push(isVerify(team6));
+    dividedTeams.push(isVerify(team7));
+    dividedTeams.push(isVerify(team8));
+  
+    setIsVisible(true);
+    setTeams(dividedTeams);
   };
+  
 
   const handleAddBestPlayer = () => {
-    if (bestPlayers.length < 10) {
+    if (bestPlayers.length < 8) {
       addTotalPlayers(1);
       setBestPlayers([...bestPlayers, '']);
     }
@@ -108,7 +184,7 @@ function App(): JSX.Element {
   };
 
   const handleAddWorstPlayer = () => {
-    if (worstPlayers.length < 10) {
+    if (worstPlayers.length < 8) {
       addTotalPlayers(1);
       setWorstPlayers([...worstPlayers, '']);
     }
@@ -124,7 +200,7 @@ function App(): JSX.Element {
   };
 
   const handleAddNormalPlayer = () => {
-    if (normalPlayers.length < 40) {
+    if (normalPlayers.length < 16) {
       addTotalPlayers(1);
       setNormalPlayers([...normalPlayers, '']);
     }
@@ -212,14 +288,12 @@ function App(): JSX.Element {
               />
             ))}
 
-            <Text style={{ fontSize: 20, marginTop: 20 }}>Tamanho do Time:</Text>
-            <TextInput
-              placeholder="Tamanho do Time"
-              value={teamSize}
-              onChangeText={(text) => setTeamSize(text)}
-              keyboardType="numeric"
-            />
+            <Text style={{ fontSize: 20, marginTop: 20 }}>Melhores e piores devem ser iguais</Text>
+            <Text style={{ fontSize: 20, marginTop: 20 }}>Jogadores por time: 4</Text>
+            <Text style={{ fontSize: 20, marginTop: 20 }}>Nenhuma lista deve está vazia</Text>
+
             <Text style={{ fontSize: 20 }}>Total de jogadores: {totalPlayers}</Text>
+            
             {isVisible 
               ? <Button title="Limpar times" onPress={handleCleanTeams} />
               : <Button title="Sortear Times" onPress={handleSortTeams} />  }
