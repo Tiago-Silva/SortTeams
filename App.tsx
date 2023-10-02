@@ -78,11 +78,6 @@ function App(): JSX.Element {
     }
 
     const dividedTeams: string[][] = [];
-  
-    // Embaralhar jogadores de cada lista
-    // const shuffledBestPlayers = shuffle(bestPlayers);
-    // const shuffledWorstPlayers = shuffle(worstPlayers);
-    // const shuffledNormalPlayers = shuffle(normalPlayers);
 
     const [oneBest, twoBest, threeBest, fourBest, fiveBest, sixBest, sevenBest, eightBest] = shuffle(bestPlayers);
     const [oneWorst, twoWorst, threeWorst, fourWorst, fiveWorst, sixWorst, sevenWorst, eightWorst] = shuffle(worstPlayers);
@@ -140,18 +135,6 @@ function App(): JSX.Element {
     } else if (sevenBest !== undefined && sevenBest !== null) {
       team7 = [eightBest, eightWorst, fifteenNormal, sixteenNormal];
     }
-
-  
-    // for (let i = 0; i < 8; i++) {
-
-    //   const team: string[] = [
-    //     shuffledBestPlayers[i],
-    //     shuffledWorstPlayers[i],
-    //     ...shuffledNormalPlayers.slice(i * 2, i * 2 + 2)
-    //   ];
-
-    //   dividedTeams.push(isVerify(team));
-    // }
 
     dividedTeams.push(isVerify(team01));
     dividedTeams.push(isVerify(team02));
