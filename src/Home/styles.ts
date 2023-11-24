@@ -1,0 +1,82 @@
+import { FlatList } from "react-native";
+import styled from "styled-components/native";
+
+
+export const Container = styled.View`
+    flex: 1;
+`;
+
+export const Header = styled.View`
+    background-color: #D9AFD9;
+    background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+`;
+
+export const Body = styled.ScrollView`
+    flex-direction: column;
+    min-height: '100%';
+    padding: 20px;
+`;
+
+export const Players = styled.View`
+    flex-direction: column;
+    margin-bottom: 10px;
+`;
+
+export const HeaderPlayers = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+export const Event = styled.Button`
+    /* margin-right: 10px; */
+    width: 10px;
+`;
+
+export const Title = styled.Text`
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+export const PlayerInfo = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+`;
+
+export const PlayerInput = styled.TextInput`
+    align-items: center;
+`;
+
+export const RemovePlayer = styled.TouchableOpacity`
+    padding: 10px;
+`;
+
+export const RemoveIcon = styled.Text`
+    font-size: 22px;
+    font-weight: 700;
+    color: red;
+`;
+
+export const ImageBack = styled.ImageBackground`
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.3;
+`;
+
+export const Footer = styled.View`
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+`;
+
+export const FooterInfo = styled.Text`
+    font-size: 12px;
+    color: gray;
+    opacity: 0.8;
+`;
