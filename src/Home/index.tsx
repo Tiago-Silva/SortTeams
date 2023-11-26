@@ -6,23 +6,12 @@ import {
     ImageBack,
     Footer,
     FooterInfo,
-    Players,
-    Event,
-    HeaderPlayers,
-    RemovePlayer,
-    PlayerInput,
-    PlayerInfo,
-    RemoveIcon
+    Info,
 } from "./styles";
 import React, { useState } from 'react';
 import {
   Button,
-  SafeAreaView,
-  ScrollView,
-  ImageBackground,
-  StyleSheet,
   Text,
-  TextInput,
   useColorScheme,
   View,
   Alert,
@@ -31,6 +20,8 @@ import {
 import { Colors } from 'react-native/Libraries/NewAppScreen';
   
 import { shuffle } from 'lodash';
+import { Player } from "../components/Player";
+import { TeamsDrawn } from "../components/TeamsDrawn";
 
 export function Home() {
     const isDarkMode = useColorScheme() === 'dark';
@@ -231,104 +222,63 @@ export function Home() {
     setTotalPlayers(totalPlayers - value);
   }
     return (
-        <Container style={backgroundStyle}>
-            <Header>
-                <Text>Header</Text>
-            </Header>
-            <Body contentContainerStyle={{ flexGrow: 1 }}>
+      <Container style={backgroundStyle}>
+        <Header>
+          <Text>Header</Text>
+        </Header>
+        <Body contentContainerStyle={{ flexGrow: 1 }}>
 
-              <Players>
-                <HeaderPlayers>
-                  <Title>Melhores jogadores:</Title>
-                  <Event title="+" onPress={handleAddBestPlayer} />
-                  {/* <Event title="-" onPress={handleRemoveBestPlayer} /> */}
-                </HeaderPlayers>
-                {bestPlayers.map((player, index) => (
-                  <PlayerInfo key={index}>
-                    <PlayerInput
-                      key={index}
-                      placeholder={`Jogador ${index + 1}`}
-                      value={player}
-                      onChangeText={(text) => handleAddPlayerToCategory(text, index, 'best')}
-                    />
-                    <RemovePlayer onPress={() => handleRemoveBestPlayer(index)}>
-                      <RemoveIcon>-</RemoveIcon>
-                    </RemovePlayer>
-                  </PlayerInfo>
-                ))}
-              </Players>
+          <Player 
+            listPlayers={bestPlayers}
+            title='Melhores jogadores:'
+            category='best'
+            addPlayer={handleAddBestPlayer}
+            addToCategory={handleAddPlayerToCategory}
+            onRemovePlayer={handleRemoveBestPlayer}
+          />
 
-              <Players>
-                <HeaderPlayers>
-                  <Title>Jogadores medianos:</Title>
-                  <Event title="+" onPress={handleAddWorstPlayer} />
-                  {/* <Event title="-" onPress={handleRemoveBestPlayer} /> */}
-                </HeaderPlayers>
-                {worstPlayers.map((player, index) => (
-                  <PlayerInfo key={index}>
-                    <PlayerInput
-                      key={index}
-                      placeholder={`Jogador ${index + 1}`}
-                      value={player}
-                      onChangeText={(text) => handleAddPlayerToCategory(text, index, 'worst')}
-                    />
-                    <RemovePlayer onPress={() => handleRemoveWorstPlayer(index)}>
-                      <RemoveIcon>-</RemoveIcon>
-                    </RemovePlayer>
-                  </PlayerInfo>
-                ))}
-              </Players>
+          <Player 
+            listPlayers={worstPlayers}
+            title="Jogadores medianos:"
+            category="worst"
+            addPlayer={handleAddWorstPlayer}
+            addToCategory={handleAddPlayerToCategory}
+            onRemovePlayer={handleRemoveWorstPlayer}
+          />
 
-              <Players>
-                <HeaderPlayers>
-                  <Title>Jogadores normais:</Title>
-                  <Event title="+" onPress={handleAddNormalPlayer} />
-                  {/* <Event title="-" onPress={handleRemoveBestPlayer} /> */}
-                </HeaderPlayers>
-                {normalPlayers.map((player, index) => (
-                  <PlayerInfo key={index}>
-                    <PlayerInput
-                      key={index}
-                      placeholder={`Jogador ${index + 1}`}
-                      value={player}
-                      onChangeText={(text) => handleAddPlayerToCategory(text, index, 'normal')}
-                    />
-                    <RemovePlayer onPress={() => handleRemoveNormalPlayer(index)}>
-                      <RemoveIcon>-</RemoveIcon>
-                    </RemovePlayer>
-                  </PlayerInfo>
-                ))}
-              </Players>
+          <Player 
+            listPlayers={normalPlayers}
+            title="Jogadores normais:"
+            category="normal"
+            addPlayer={handleAddNormalPlayer}
+            addToCategory={handleAddPlayerToCategory}
+            onRemovePlayer={handleRemoveNormalPlayer}
+          />
 
-              <Text style={{ fontSize: 20, marginTop: 20 }}>Melhores e piores devem ser iguais</Text>
-              <Text style={{ fontSize: 20, marginTop: 20 }}>Jogadores por time: 4</Text>
-              <Text style={{ fontSize: 20, marginTop: 20 }}>Nenhuma lista deve está vazia</Text>
+          <Info>Melhores e piores devem ser iguais</Info>
+          <Info>Jogadores por time: 4</Info>
+          <Info>Nenhuma lista deve está vazia</Info>
 
-              <Title>Total de jogadores: {totalPlayers}</Title>
-              
-              {isVisible 
-                ? <Button title="Limpar times" onPress={handleCleanTeams} />
-                : <Button title="Sortear Times" onPress={handleSortTeams} />  }
+          <Title>Total de jogadores: {totalPlayers}</Title>
+          
+          {isVisible 
+            ? <Button title="Limpar times" onPress={handleCleanTeams} />
+            : <Button title="Sortear Times" onPress={handleSortTeams} />  }
 
-              <Text style={{ fontSize: 20, marginTop: 20 }}>Times Sorteados:</Text>
-              {teams.map((team, index) => (
-                <View key={index}>
-                <Text style={{ fontSize: 16 }}>{`Time ${index + 1}:`}</Text>
-                {team.map((player, playerIndex) => (
-                    <Text key={playerIndex}>{player}</Text>
-                ))}
-                </View>
-              ))}
+          <TeamsDrawn 
+            title="Times Sorteados:"
+            teams={teams}
+          />
 
-              <Footer>
-                <FooterInfo>
-                  Este aplicativo foi desenvolvido por [ Tiago Silva ].
-                </FooterInfo>
-              </Footer>
-            </Body>
-            <ImageBack
-                source={require('../../public/futviva.png')} resizeMode="contain"
-            />
-        </Container>
+          <Footer>
+            <FooterInfo>
+              Este aplicativo foi desenvolvido por [ Tiago Silva ].
+            </FooterInfo>
+          </Footer>
+        </Body>
+        <ImageBack
+          source={require('../../public/futviva.png')} resizeMode="contain"
+        />
+      </Container>
     );
 }

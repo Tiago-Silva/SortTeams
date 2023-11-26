@@ -17,43 +17,15 @@ export const Body = styled.ScrollView`
     padding: 20px;
 `;
 
-export const Players = styled.View`
-    flex-direction: column;
-    margin-bottom: 10px;
-`;
-
-export const HeaderPlayers = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-`;
-
-export const Event = styled.Button`
-    /* margin-right: 10px; */
-    width: 10px;
-`;
-
 export const Title = styled.Text`
     font-size: 20px;
     font-weight: bold;
 `;
 
-export const PlayerInfo = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-`;
-
-export const PlayerInput = styled.TextInput`
-    align-items: center;
-`;
-
-export const RemovePlayer = styled.TouchableOpacity`
-    padding: 10px;
-`;
-
-export const RemoveIcon = styled.Text`
-    font-size: 22px;
-    font-weight: 700;
-    color: red;
+export const Info = styled.Text`
+    font-size: 20px;
+    margin-top: 10px;
+    opacity: 0.7;
 `;
 
 export const ImageBack = styled.ImageBackground`
