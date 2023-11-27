@@ -59,7 +59,7 @@ export function Home() {
 
   const createAlertNotification = (title:string, message:string) => {
     Alert.alert(title, message, [
-    {text: 'OK', onPress: () => console.log('OK Pressed')},
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
     ]);
   }
 
@@ -186,6 +186,8 @@ export function Home() {
           <Info>Melhores e piores devem ser iguais</Info>
           <Info>Jogadores por time: 4</Info>
           <Info>Nenhuma lista deve está vazia</Info>
+
+          <Info>Total de times: {Math.ceil(totalPlayers / 4)}</Info>
 
           <Title>Total de jogadores: {totalPlayers}</Title>
           
