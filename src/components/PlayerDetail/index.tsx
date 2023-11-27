@@ -45,7 +45,7 @@ export function PlayerList({
                 onChangeText={(text) => handleNameChange(text, index, category)}
             />
             <RemovePlayer onPress={() => handleRemove(index, category)}>
-                <RemoveIcon>-</RemoveIcon>
+                <RemoveIcon source={require('../../../public/cartao-vermelho.png')} />
             </RemovePlayer>
         </Container>
     );

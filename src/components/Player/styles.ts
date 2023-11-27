@@ -8,11 +8,16 @@ export const Container = styled.View`
 export const Header = styled.View`
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 `;
 
-export const Event = styled.Button`
-    /* margin-right: 10px; */
-    width: 10px;
+export const ContainerEvent = styled.TouchableOpacity`
+
+`;
+
+export const Event = styled.Image`
+    height: 40px;
+    width: 40px;
 `;
 
 export const Title = styled.Text`

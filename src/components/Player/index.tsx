@@ -4,7 +4,8 @@ import {
     Title,
     Container,
     Event,
-    Header
+    Header,
+    ContainerEvent
 } from "./styles";
 import { CATEGORIES, PlayerList } from '../PlayerDetail';
 
@@ -30,7 +31,9 @@ export function Player({
         <Container>
             <Header>
                 <Title>{title}</Title>
-                <Event title="+" onPress={() => addPlayer(category)}/>
+                <ContainerEvent onPress={() => addPlayer(category)}>
+                    <Event source={require('../../../public/add-player.png')} />
+                </ContainerEvent>
             </Header>
             {listPlayers.map((player, index) => (
                 <PlayerList
