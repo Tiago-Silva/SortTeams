@@ -6,15 +6,15 @@ import {
     Event,
     Header
 } from "./styles";
-import { PlayerList } from '../PlayerDetail';
+import { CATEGORIES, PlayerList } from '../PlayerDetail';
 
-interface Props {
+interface PropsPlayer {
     listPlayers: string[];
     title: string;
-    category: 'best' | 'worst' | 'normal';
-    addPlayer: () => void;
-    addToCategory: (text: string, index: number, category: 'best' | 'worst' | 'normal') => void;
-    onRemovePlayer: (index:number) => void;
+    category: keyof typeof CATEGORIES;
+    addPlayer: (category: keyof typeof CATEGORIES) => void;
+    addToCategory: (text: string, index: number, category: keyof typeof CATEGORIES) => void;
+    onRemovePlayer: (index:number, category: keyof typeof CATEGORIES) => void;
 }
 
 export function Player({
@@ -24,13 +24,13 @@ export function Player({
     addPlayer, 
     addToCategory,
     onRemovePlayer
-}: Props) {
+}: PropsPlayer) {
 
     return (
         <Container>
             <Header>
                 <Title>{title}</Title>
-                <Event title="+" onPress={addPlayer}/>
+                <Event title="+" onPress={() => addPlayer(category)}/>
             </Header>
             {listPlayers.map((player, index) => (
                 <PlayerList
