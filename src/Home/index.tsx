@@ -1,7 +1,6 @@
 import { 
     Container,
     Body,
-    Header,
     Title,
     ImageBack,
     Footer,
@@ -151,9 +150,6 @@ export function Home() {
   }
     return (
       <Container style={backgroundStyle}>
-        <Header>
-          <Text>Header</Text>
-        </Header>
         <Body contentContainerStyle={{ flexGrow: 1 }}>
 
           <Player 
