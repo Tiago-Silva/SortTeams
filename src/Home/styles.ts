@@ -6,11 +6,6 @@ export const Container = styled.View`
     flex: 1;
 `;
 
-export const Header = styled.View`
-    background-color: #D9AFD9;
-    background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
-`;
-
 export const Body = styled.ScrollView`
     flex-direction: column;
     min-height: '100%';
