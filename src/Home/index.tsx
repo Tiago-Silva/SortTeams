@@ -13,57 +13,61 @@ import {
   Button,
   Text,
   useColorScheme,
-  View,
   Alert,
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-  
 import { shuffle } from 'lodash';
 import { Player } from "../components/Player";
 import { TeamsDrawn } from "../components/TeamsDrawn";
+import { CATEGORIES } from "../components/PlayerDetail";
 
 export function Home() {
-    const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useColorScheme() === 'dark';
 
-    const backgroundStyle = {
-      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    };
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
 
-    const [bestPlayers, setBestPlayers] = useState<string[]>([]);
-    const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
-    const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
-    const [teams, setTeams] = useState<string[][]>([]);
-    const [isVisible, setIsVisible] = useState<boolean>(false);
-    const [totalPlayers, setTotalPlayers] = useState<number>(0);
+  const [bestPlayers, setBestPlayers] = useState<string[]>([]);
+  const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
+  const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
+  const [teams, setTeams] = useState<string[][]>([]);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [totalPlayers, setTotalPlayers] = useState<number>(0);
 
-    const handleAddPlayerToCategory = (player: string, index: number, category: 'best' | 'worst' | 'normal') => {
+  const updateList: Record<string, string[]> = {
+    best: bestPlayers,
+    worst: worstPlayers,
+    normal: normalPlayers,
+  };
 
-    if (category === 'best') {
-        handleBestPlayerNameChange(player, index);
-        } else if (category === 'worst') {
-        handleWorstPlayerNameChange(player, index);
-        } else if (category === 'normal') {
-        handleNormnalPlayerNameChange(player, index);
-        }
-    };
+  const setList: Record<string, React.Dispatch<React.SetStateAction<string[]>>> = {
+    best: setBestPlayers,
+    worst: setWorstPlayers,
+    normal: setNormalPlayers,
+  };
 
-    const handleCleanTeams = () => {
-        setIsVisible(false);
-        setTeams([]);
-    }
+  const handleAddPlayerToCategory = (player: string, index: number, category:  keyof typeof CATEGORIES) => {
+    handlePlayerNameChange(player, index,category);
+  };
 
-    const createAlertNotification = (title:string, message:string) => {
-        Alert.alert(title, message, [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ]);
-    }
+  const handleCleanTeams = () => {
+      setIsVisible(false);
+      setTeams([]);
+  }
 
-    const isVerify = (array:string[]) => {
-        return array.filter(elemento => elemento !== null && elemento !== undefined && elemento !== '');
-    }
+  const createAlertNotification = (title:string, message:string) => {
+      Alert.alert(title, message, [
+      {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+  }
 
-    const handleSortTeams = () => {
+  const isVerify = (array:string[]) => {
+      return array.filter(elemento => elemento !== null && elemento !== undefined && elemento !== '');
+  }
+
+  const handleSortTeams = () => {
     
     if (bestPlayers.length < 2 || worstPlayers.length < 2 || normalPlayers.length < 4) {
         createAlertNotification('Atenção', 'Melhores e medianos devem ter no mínimo dois jogadores em cada');
@@ -148,70 +152,32 @@ export function Home() {
   };
   
 
-  const handleAddBestPlayer = () => {
-    if (bestPlayers.length < 8) {
-        addTotalPlayers(1);
-        setBestPlayers([...bestPlayers, '']);
-    }
-  };
-
-  const handleRemoveBestPlayer = (index:number) => {
-    if (bestPlayers.length > 0) {
-      removeTotalPlayers(1);
-      const updatedPlayers = [...bestPlayers];
-      updatedPlayers.splice(index, 1);
-      setBestPlayers(updatedPlayers);
-    }
-  };
-
-  const handleAddWorstPlayer = () => {
-    if (worstPlayers.length < 8) {
+  const handleAddPlayer = (category: keyof typeof CATEGORIES) => {
+    if (updateList[category].length < 8) {
       addTotalPlayers(1);
-      setWorstPlayers([...worstPlayers, '']);
+      setList[category]((prevPlayers) => {
+        return [...prevPlayers, ''];
+      });
     }
   };
 
-  const handleRemoveWorstPlayer = (index:number) => {
-    if (worstPlayers.length > 0) {
+  const handleRemoPlayer = (index:number, category: keyof typeof CATEGORIES) => {
+    if (updateList[category].length > 0) {
       removeTotalPlayers(1);
-      const updatedPlayers = [...worstPlayers];
-      updatedPlayers.splice(index, 1);
-      setWorstPlayers(updatedPlayers);
+      const updatePlayers = [...updateList[category]];
+      updatePlayers.splice(index, 1);
+      setList[category]((prevPlayers) => {
+        return updatePlayers;
+      })
     }
   };
 
-  const handleAddNormalPlayer = () => {
-    if (normalPlayers.length < 16) {
-      addTotalPlayers(1);
-      setNormalPlayers([...normalPlayers, '']);
-    }
-  };
-
-  const handleRemoveNormalPlayer = (index:number) => {
-    if (normalPlayers.length > 0) {
-      removeTotalPlayers(1);
-      const updatedPlayers = [...normalPlayers];
-      updatedPlayers.splice(index, 1);
-      setNormalPlayers(updatedPlayers);
-    }
-  };
-
-  const handleBestPlayerNameChange = (text: string, index: number) => {
-    const updatedPlayers = [...bestPlayers];
+  const handlePlayerNameChange = (text: string, index: number, category:  keyof typeof CATEGORIES) => {
+    const updatedPlayers = [...updateList[category]];
     updatedPlayers[index] = text;
-    setBestPlayers(updatedPlayers);
-  };
-
-  const handleWorstPlayerNameChange = (text: string, index: number) => {
-    const updatedPlayers = [...worstPlayers];
-    updatedPlayers[index] = text;
-    setWorstPlayers(updatedPlayers);
-  };
-
-  const handleNormnalPlayerNameChange = (text: string, index: number) => {
-    const updatedNormalPlayers = [...normalPlayers];
-    updatedNormalPlayers[index] = text;
-    setNormalPlayers(updatedNormalPlayers);
+    setList[category]((prevPlayers) => {
+      return updatedPlayers;
+    });
   };
 
   const addTotalPlayers = (value: number) => {
@@ -232,27 +198,27 @@ export function Home() {
             listPlayers={bestPlayers}
             title='Melhores jogadores:'
             category='best'
-            addPlayer={handleAddBestPlayer}
+            addPlayer={handleAddPlayer}
             addToCategory={handleAddPlayerToCategory}
-            onRemovePlayer={handleRemoveBestPlayer}
+            onRemovePlayer={handleRemoPlayer}
           />
 
           <Player 
             listPlayers={worstPlayers}
             title="Jogadores medianos:"
             category="worst"
-            addPlayer={handleAddWorstPlayer}
+            addPlayer={handleAddPlayer}
             addToCategory={handleAddPlayerToCategory}
-            onRemovePlayer={handleRemoveWorstPlayer}
+            onRemovePlayer={handleRemoPlayer}
           />
 
           <Player 
             listPlayers={normalPlayers}
             title="Jogadores normais:"
             category="normal"
-            addPlayer={handleAddNormalPlayer}
+            addPlayer={handleAddPlayer}
             addToCategory={handleAddPlayerToCategory}
-            onRemovePlayer={handleRemoveNormalPlayer}
+            onRemovePlayer={handleRemoPlayer}
           />
 
           <Info>Melhores e piores devem ser iguais</Info>

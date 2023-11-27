@@ -6,12 +6,18 @@ import {
     RemovePlayer 
 } from './styles';
 
-interface Props {
+export const CATEGORIES = {
+    best: 'best',
+    worst: 'worst',
+    normal: 'normal',
+  } as const;
+
+interface PropsDetails {
     index: number;
     player: string;
-    category: 'best' | 'worst' | 'normal';
-    addToCategory: (text: string, index: number, category: 'best' | 'worst' | 'normal') => void;
-    onRemovePlayer: (index:number) => void;
+    category: keyof typeof CATEGORIES;
+    addToCategory: (text: string, index: number, category: keyof typeof CATEGORIES) => void;
+    onRemovePlayer: (index:number, category: keyof typeof CATEGORIES) => void;
 }
 
 export function PlayerList({ 
@@ -20,14 +26,14 @@ export function PlayerList({
     category,
     addToCategory,
     onRemovePlayer
-}: Props) {
+}: PropsDetails) {
 
-    const handleNameChange = (text:string, index:number, category: 'best' | 'worst' | 'normal') => {
+    const handleNameChange = (text:string, index:number, category: keyof typeof CATEGORIES) => {
         addToCategory(text, index, category);
     };
 
-    const handleRemove = (index:number) => {
-        onRemovePlayer(index);
+    const handleRemove = (index:number, category: keyof typeof CATEGORIES) => {
+        onRemovePlayer(index, category);
     };
 
     return (
@@ -38,7 +44,7 @@ export function PlayerList({
                 value={player}
                 onChangeText={(text) => handleNameChange(text, index, category)}
             />
-            <RemovePlayer onPress={() => handleRemove(index)}>
+            <RemovePlayer onPress={() => handleRemove(index, category)}>
                 <RemoveIcon>-</RemoveIcon>
             </RemovePlayer>
         </Container>
