@@ -2,7 +2,6 @@ import React from 'react';
 import { 
     Container, ContainerPlayersDrawn, Header, HeaderPlayersDrawn, PlayersDrawn, Title
  } from './styles';
-import { Text } from 'react-native';
 
  interface Props {
     title: string;
