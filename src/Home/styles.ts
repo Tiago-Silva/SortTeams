@@ -6,7 +6,7 @@ export const Container = styled.View`
     flex: 1;
 `;
 
-export const Header = styled.View`
+export const Header = styled.SafeAreaView`
     background-color: #D9AFD9;
     background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
 `;

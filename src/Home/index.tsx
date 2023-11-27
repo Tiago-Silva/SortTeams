@@ -53,112 +53,74 @@ export function Home() {
   };
 
   const handleCleanTeams = () => {
-      setIsVisible(false);
-      setTeams([]);
+    setIsVisible(false);
+    setTeams([]);
   }
 
   const createAlertNotification = (title:string, message:string) => {
-      Alert.alert(title, message, [
-      {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]);
+    Alert.alert(title, message, [
+    {text: 'OK', onPress: () => console.log('OK Pressed')},
+    ]);
   }
 
   const isVerify = (array:string[]) => {
-      return array.filter(elemento => elemento !== null && elemento !== undefined && elemento !== '');
+    return array.filter(elemento => elemento !== null && elemento !== undefined && elemento !== '');
   }
 
   const handleSortTeams = () => {
     
     if (bestPlayers.length < 2 || worstPlayers.length < 2 || normalPlayers.length < 4) {
-        createAlertNotification('Atenção', 'Melhores e medianos devem ter no mínimo dois jogadores em cada');
-        return;
+      createAlertNotification('Atenção', 'Melhores e medianos devem ter no mínimo dois jogadores em cada');
+      return;
     }
 
     if (bestPlayers.length < worstPlayers.length || bestPlayers.length > worstPlayers.length) {
-        createAlertNotification('Atenção', 'Melhores e medianos devem ter a mesma quantidade');
-        return;
+      createAlertNotification('Atenção', 'Melhores e medianos devem ter a mesma quantidade');
+      return;
+    }
+
+    const totalTeams = Math.floor(totalPlayers / 4);
+
+    if (bestPlayers.length < totalTeams || worstPlayers.length < totalTeams
+      || bestPlayers.length > totalTeams || worstPlayers.length > totalTeams) {
+      createAlertNotification('Atenção!!!', 'Melhores e medianos devem ser igual a quantidade total de times');
+      return;
     }
 
     const dividedTeams: string[][] = [];
+   
+    let bestTeams: any[] = shuffle(bestPlayers);
+    let worstTeams: any[] = shuffle(worstPlayers);
+    let nomalTeams: any[] = shuffle(normalPlayers);
 
-    const [oneBest, twoBest, threeBest, fourBest, fiveBest, sixBest, sevenBest, eightBest] = shuffle(bestPlayers);
-    const [oneWorst, twoWorst, threeWorst, fourWorst, fiveWorst, sixWorst, sevenWorst, eightWorst] = shuffle(worstPlayers);
-    const [oneNormal, twoNormal, threeNormal, fourNormal, fiveNormal, sixNormal, sevenNormal, eightNormal,
-        nineNormal, tenNormal, elevenNormal, twelveNormal, thirteenNormal, fourteenNormal, fifteenNormal,
-        sixteenNormal] = shuffle(normalPlayers);
+    for (let i = 0; i < totalTeams; i++) {
+      const teamsList: any[] = [];
+      teamsList.push(bestTeams.shift());
+      teamsList.push(worstTeams.shift());
+      teamsList.push(nomalTeams.shift());
+      teamsList.push(nomalTeams.shift());
 
-    const team01: string[] = [oneBest, oneWorst, oneNormal, twoNormal];
-    const team02: string[] = [twoBest, twoWorst, threeNormal, fourNormal];
-    let team3: string[] = [];
-    let team4: string[] = [];
-    let team5: string[] = [];
-    let team6: string[] = [];
-    let team7: string[] = [];
-    let team8: string[] = [];
-
-    if (!threeBest) {
-        team3 = [fiveNormal, sixNormal, sevenNormal, eightNormal];
-        team4 = [nineNormal, tenNormal, elevenNormal, twelveNormal];
-        team5 = [thirteenNormal, fourteenNormal, fifteenNormal,sixteenNormal];
-    } else {
-      team3 = [threeBest, threeWorst, fiveNormal, sixNormal];
+      dividedTeams.push(teamsList);
     }
 
-    if (!fourBest && threeBest !== undefined && threeBest !== null) {
-        team4 = [sevenNormal, eightNormal, nineNormal, tenNormal];
-        team5 = [elevenNormal, twelveNormal, thirteenNormal, fourteenNormal];
-        team6 = [fifteenNormal, sixteenNormal];
-    } else if (threeBest !== undefined && threeBest !== null) {
-        team4 = [fourBest, fourWorst, sevenNormal, eightNormal];
+    if (totalPlayers % 4) {
+      dividedTeams.push(nomalTeams);
     }
 
-    if (!fiveBest && fourBest !== undefined && fourBest !== null) {
-        team5 = [nineNormal, tenNormal, elevenNormal, twelveNormal];
-        team6 = [thirteenNormal, fourteenNormal, fifteenNormal, sixteenNormal];
-    } else if (fourBest !== undefined && fourBest !== null) {
-        team5 = [fiveBest, fiveWorst, nineNormal, tenNormal];
-    }
-
-    if (!sixBest && fiveBest !== undefined && fiveBest !== null) {
-        team6 = [elevenNormal, twelveNormal, thirteenNormal, fourteenNormal];
-        team7 = [fifteenNormal, sixteenNormal];
-    } else if (fiveBest !== undefined && fiveBest !== null) {
-        team6 = [sixBest, sixWorst, elevenNormal, twelveNormal];
-    }
-
-    if (!sevenBest && sixBest !== undefined && sixBest !== null) {
-        team7 = [thirteenNormal, fourteenNormal, fifteenNormal, sixteenNormal];
-    } else if (sixBest !== undefined && sixBest !== null) {
-        team7 = [sevenBest, sevenWorst, thirteenNormal, fourteenNormal];
-    }
-
-    if (!eightBest && sevenBest !== undefined && sevenBest !== null) {
-        team8 = [fifteenNormal, sixteenNormal];
-    } else if (sevenBest !== undefined && sevenBest !== null) {
-        team7 = [eightBest, eightWorst, fifteenNormal, sixteenNormal];
-    }
-
-    dividedTeams.push(isVerify(team01));
-    dividedTeams.push(isVerify(team02));
-    dividedTeams.push(isVerify(team3));
-    dividedTeams.push(isVerify(team4));
-    dividedTeams.push(isVerify(team5));
-    dividedTeams.push(isVerify(team6));
-    dividedTeams.push(isVerify(team7));
-    dividedTeams.push(isVerify(team8));
-  
     setIsVisible(true);
     setTeams(dividedTeams);
   };
   
 
   const handleAddPlayer = (category: keyof typeof CATEGORIES) => {
-    if (updateList[category].length < 8) {
-      addTotalPlayers(1);
-      setList[category]((prevPlayers) => {
-        return [...prevPlayers, ''];
-      });
+    if (updateList[category].length >= 16) {
+      createAlertNotification('Atenção!!!', 'A quantidade não pode ser maior que 16');
+      return;
     }
+    addTotalPlayers(1);
+    setList[category]((prevPlayers) => {
+      return [...prevPlayers, ''];
+    });
   };
 
   const handleRemoPlayer = (index:number, category: keyof typeof CATEGORIES) => {
