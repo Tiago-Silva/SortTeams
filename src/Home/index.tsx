@@ -10,23 +10,15 @@ import {
 import React, { useState } from 'react';
 import {
   Button,
-  Text,
-  useColorScheme,
   Alert,
 } from 'react-native';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { shuffle } from 'lodash';
 import { Player } from "../components/Player";
 import { TeamsDrawn } from "../components/TeamsDrawn";
 import { CATEGORIES } from "../components/PlayerDetail";
 
 export function Home() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   const [bestPlayers, setBestPlayers] = useState<string[]>([]);
   const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
@@ -60,10 +52,6 @@ export function Home() {
     Alert.alert(title, message, [
       {text: 'OK', onPress: () => console.log('OK Pressed')},
     ]);
-  }
-
-  const isVerify = (array:string[]) => {
-    return array.filter(elemento => elemento !== null && elemento !== undefined && elemento !== '');
   }
 
   const handleSortTeams = () => {
@@ -149,7 +137,7 @@ export function Home() {
     setTotalPlayers(totalPlayers - value);
   }
     return (
-      <Container style={backgroundStyle}>
+      <Container>
         <Body contentContainerStyle={{ flexGrow: 1 }}>
 
           <Player 

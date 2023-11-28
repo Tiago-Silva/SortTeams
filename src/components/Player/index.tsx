@@ -32,7 +32,7 @@ export function Player({
             <Header>
                 <Title>{title}</Title>
                 <ContainerEvent onPress={() => addPlayer(category)}>
-                    <Event source={require('../../../public/add-player.png')} />
+                    <Event source={require('../../../public/bola.png')} />
                 </ContainerEvent>
             </Header>
             {listPlayers.map((player, index) => (

@@ -6,12 +6,15 @@ export const Container = styled.View`
     align-items: center;
 `;
 
-export const PlayerInput = styled.TextInput`
+export const PlayerInput = styled.TextInput.attrs((props) => ({
+    placeholderTextColor: props.theme.color,
+  }))`
     align-items: center;
+    color: ${props => props.theme.color};
 `;
 
 export const RemovePlayer = styled.TouchableOpacity`
-    padding: 10px;
+    /* padding: 10px; */
 `;
 
 export const RemoveIcon = styled.Image`
