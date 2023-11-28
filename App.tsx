@@ -9,18 +9,17 @@ import React from 'react';
 import { useColorScheme } from 'react-native';
 import { Home } from './src/Home';
 import { ThemeProvider } from 'styled-components';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import themes from './src/Themes';
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const deviceTheme = useColorScheme();
+  const theme = (deviceTheme && themes[deviceTheme]) || themes.dark;
+
   return (
-    // <ThemeProvider theme={isDarkMode ? Colors.black : Colors.white}>
+    <ThemeProvider theme={theme}>
       <Home />
-    // </ThemeProvider>
+    </ThemeProvider>
   );
 }
 

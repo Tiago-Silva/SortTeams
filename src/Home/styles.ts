@@ -1,8 +1,8 @@
-import { FlatList } from "react-native";
 import styled from "styled-components/native";
 
 
 export const Container = styled.View`
+    background: ${props => props.theme.background};
     flex: 1;
 `;
 
@@ -13,11 +13,13 @@ export const Body = styled.ScrollView`
 `;
 
 export const Title = styled.Text`
+    color: ${props => props.theme.color};
     font-size: 20px;
     font-weight: bold;
 `;
 
 export const Info = styled.Text`
+    color: ${props => props.theme.color};
     font-size: 20px;
     margin-top: 10px;
     opacity: 0.7;
@@ -43,6 +45,7 @@ export const Footer = styled.View`
 `;
 
 export const FooterInfo = styled.Text`
+    color: ${props => props.theme.color};
     font-size: 12px;
     color: gray;
     opacity: 0.8;
