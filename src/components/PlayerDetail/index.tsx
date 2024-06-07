@@ -1,12 +1,6 @@
 import React from 'react';
 import {Container, PlayerInput, RemoveIcon, RemovePlayer} from './styles';
 
-export const CATEGORIES = {
-  best: 'best',
-  worst: 'worst',
-  normal: 'normal',
-} as const;
-
 interface PropsDetails {
   index: number;
   player: string;

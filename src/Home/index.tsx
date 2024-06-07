@@ -21,33 +21,14 @@ import {TeamsDrawn} from '../components/TeamsDrawn';
 import {PlusSquare, XSquare} from 'react-native-feather';
 
 export function Home() {
-  // const [bestPlayers, setBestPlayers] = useState<string[]>([]);
-  // const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
-  // const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
   const [teams, setTeams] = useState<string[][]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [totalPlayers, setTotalPlayers] = useState<number>(8);
-
   const [groups, setGroups] = useState<Record<string, string[]>>({
     'Grupo 1': ['', '', '', ''],
     'Grupo 2': ['', '', '', ''],
   });
   const [totalTeams, seTotalTeams] = useState<number>(2);
-
-  // const updateList: Record<string, string[]> = {
-  //   best: bestPlayers,
-  //   worst: worstPlayers,
-  //   normal: normalPlayers,
-  // };
-  //
-  // const setList: Record<
-  //   string,
-  //   React.Dispatch<React.SetStateAction<string[]>>
-  // > = {
-  //   best: setBestPlayers,
-  //   worst: setWorstPlayers,
-  //   normal: setNormalPlayers,
-  // };
 
   const handleAddPlayer = (grupo: string) => {
     setGroups(prevGrupos => {
@@ -138,20 +119,6 @@ export function Home() {
     setTeams(dividedTeams);
   };
 
-  // const handleAddPlayer = (category: string) => {
-  //   if (updateList[category].length >= 16) {
-  //     createAlertNotification(
-  //       'Atenção!!!',
-  //       'A quantidade não pode ser maior que 16',
-  //     );
-  //     return;
-  //   }
-  //   addTotalPlayers(1);
-  //   setList[category](prevPlayers => {
-  //     return [...prevPlayers, ''];
-  //   });
-  // };
-
   const handleRemoPlayer = (index: number, category: string) => {
     if (groups[category].length > 0) {
       removeTotalPlayers(1);
@@ -205,7 +172,6 @@ export function Home() {
             onRemovePlayer={handleRemoPlayer}
           />
         ))}
-        {/*<Info>Melhores e piores devem ser iguais</Info>*/}
         <Info>
           Quantidade de jogadores no grupo deve ser igual a quantidade de times
         </Info>
