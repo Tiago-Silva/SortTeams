@@ -50,9 +50,25 @@ export const FooterInfo = styled.Text`
   opacity: 0.8;
 `;
 
-export const TimesInput = styled.TextInput.attrs(props => ({
-  placeholderTextColor: props.theme.color,
-}))`
-  align-items: center;
+export const TextIcon = styled.Text`
   color: ${props => props.theme.color};
+  font-size: 20px;
+  opacity: 0.7;
+`;
+
+export const WrapperGroups = styled.View`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #f1e7e7;
+  border-radius: 15px;
+  padding: 5px;
+`;
+
+export const WrapperIcon = styled.TouchableOpacity`
+  flex: 1;
+  align-self: center;
 `;
