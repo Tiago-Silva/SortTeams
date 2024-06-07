@@ -21,9 +21,9 @@ import {TeamsDrawn} from '../components/TeamsDrawn';
 import {PlusSquare, XSquare} from 'react-native-feather';
 
 export function Home() {
-  const [bestPlayers, setBestPlayers] = useState<string[]>([]);
-  const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
-  const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
+  // const [bestPlayers, setBestPlayers] = useState<string[]>([]);
+  // const [worstPlayers, setWorstPlayers] = useState<string[]>([]);
+  // const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
   const [teams, setTeams] = useState<string[][]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [totalPlayers, setTotalPlayers] = useState<number>(8);
@@ -32,22 +32,22 @@ export function Home() {
     'Grupo 1': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
     'Grupo 2': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
   });
-  const [times, seTimes] = useState<number>(2);
+  const [totalTeams, seTotalTeams] = useState<number>(2);
 
-  const updateList: Record<string, string[]> = {
-    best: bestPlayers,
-    worst: worstPlayers,
-    normal: normalPlayers,
-  };
-
-  const setList: Record<
-    string,
-    React.Dispatch<React.SetStateAction<string[]>>
-  > = {
-    best: setBestPlayers,
-    worst: setWorstPlayers,
-    normal: setNormalPlayers,
-  };
+  // const updateList: Record<string, string[]> = {
+  //   best: bestPlayers,
+  //   worst: worstPlayers,
+  //   normal: normalPlayers,
+  // };
+  //
+  // const setList: Record<
+  //   string,
+  //   React.Dispatch<React.SetStateAction<string[]>>
+  // > = {
+  //   best: setBestPlayers,
+  //   worst: setWorstPlayers,
+  //   normal: setNormalPlayers,
+  // };
 
   const handleAddPlayer = (grupo: string) => {
     setGroups(prevGrupos => {
@@ -98,62 +98,40 @@ export function Home() {
     ]);
   };
 
+  const areAllGroupsEqual = (groups: Record<string, string[]>): boolean => {
+    const groupKeys = Object.keys(groups);
+    const firstGroupSize = groups[groupKeys[0]].length;
+
+    for (let i = 1; i < groupKeys.length; i++) {
+      if (groups[groupKeys[i]].length !== firstGroupSize) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const handleSortTeams = () => {
-    if (
-      bestPlayers.length < 2 ||
-      worstPlayers.length < 2 ||
-      normalPlayers.length < 4
-    ) {
+    if (!areAllGroupsEqual(groups)) {
       createAlertNotification(
         'Atenção',
-        'Melhores e medianos devem ter no mínimo dois jogadores em cada',
+        'Todos os grupos devem ter a mesma quantidade de jogadores',
       );
       return;
     }
 
-    if (
-      bestPlayers.length < worstPlayers.length ||
-      bestPlayers.length > worstPlayers.length
-    ) {
-      createAlertNotification(
-        'Atenção',
-        'Melhores e medianos devem ter a mesma quantidade',
-      );
-      return;
-    }
+    // Cria uma lista vazia para cada time
+    const dividedTeams: string[][] = Array.from({length: totalTeams}, () => []);
 
-    const totalTeams = Math.floor(totalPlayers / 4);
+    // Para cada grupo
+    for (const group of Object.values(groups)) {
+      // Embaralha a lista de jogadores
+      const shuffledGroup = shuffle(group);
 
-    if (
-      bestPlayers.length < totalTeams ||
-      worstPlayers.length < totalTeams ||
-      bestPlayers.length > totalTeams ||
-      worstPlayers.length > totalTeams
-    ) {
-      createAlertNotification(
-        'Atenção!!!',
-        'Melhores e medianos devem ser igual a quantidade total de times',
-      );
-      return;
-    }
-
-    const dividedTeams: string[][] = [];
-    let bestTeams: any[] = shuffle(bestPlayers);
-    let worstTeams: any[] = shuffle(worstPlayers);
-    let nomalTeams: any[] = shuffle(normalPlayers);
-
-    for (let i = 0; i < totalTeams; i++) {
-      const teamsList: any[] = [];
-      teamsList.push(bestTeams.shift());
-      teamsList.push(worstTeams.shift());
-      teamsList.push(nomalTeams.shift());
-      teamsList.push(nomalTeams.shift());
-
-      dividedTeams.push(teamsList);
-    }
-
-    if (totalPlayers % 4) {
-      dividedTeams.push(nomalTeams);
+      // Distribui os jogadores nos times
+      for (let i = 0; i < shuffledGroup.length; i++) {
+        dividedTeams[i % totalTeams].push(shuffledGroup[i]);
+      }
     }
 
     setIsVisible(true);
@@ -190,10 +168,10 @@ export function Home() {
     index: number,
     category: string,
   ) => {
-    const updatedPlayers = [...updateList[category]];
-    updatedPlayers[index] = text;
-    setList[category](() => {
-      return updatedPlayers;
+    setGroups(prevGroups => {
+      const updatedGroups = {...prevGroups};
+      updatedGroups[category][index] = text;
+      return updatedGroups;
     });
   };
 
@@ -233,10 +211,10 @@ export function Home() {
         <WrapperInput>
           <TextIcon>Adicione o Total de times: </TextIcon>
           <InputTeams
-            placeholder={times.toString()}
+            placeholder={totalTeams.toString()}
             keyboardType="numeric"
-            value={times.toString()}
-            onChangeText={(text: string) => seTimes(Number(text))}
+            value={totalTeams.toString()}
+            onChangeText={(text: string) => seTotalTeams(Number(text))}
           />
         </WrapperInput>
         <Title>Total de jogadores: {totalPlayers}</Title>
