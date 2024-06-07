@@ -24,9 +24,9 @@ export function Home() {
   const [normalPlayers, setNormalPlayers] = useState<string[]>([]);
   const [teams, setTeams] = useState<string[][]>([]);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [totalPlayers, setTotalPlayers] = useState<number>(0);
+  const [totalPlayers, setTotalPlayers] = useState<number>(8);
 
-  const [grupos, setGrupos] = useState<Record<string, string[]>>({
+  const [groups, setGroups] = useState<Record<string, string[]>>({
     'Grupo 1': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
     'Grupo 2': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
   });
@@ -48,7 +48,8 @@ export function Home() {
   };
 
   const handleAddPlayer = (grupo: string) => {
-    setGrupos(prevGrupos => {
+    setGroups(prevGrupos => {
+      addTotalPlayers(1);
       const gruposExistentes = {...prevGrupos};
       const novoJogador = 'Jogador ' + (gruposExistentes[grupo].length + 1);
       gruposExistentes[grupo].push(novoJogador);
@@ -57,7 +58,7 @@ export function Home() {
   };
 
   const handleAddGroup = () => {
-    setGrupos(prevGrupos => {
+    setGroups(prevGrupos => {
       const novoGrupo = {...prevGrupos}; // copia o estado atual dos grupos
       const novoNomeGrupo = 'Grupo ' + (Object.keys(novoGrupo).length + 1); // cria o nome do novo grupo
       novoGrupo[novoNomeGrupo] = []; // adiciona o novo grupo
@@ -66,10 +67,11 @@ export function Home() {
   };
 
   const handleRemoveGroup = () => {
-    setGrupos(prevGrupos => {
+    setGroups(prevGrupos => {
       const existingGroups = {...prevGrupos};
       const keyGroups = Object.keys(existingGroups);
       const lastGroup = keyGroups[keyGroups.length - 1];
+      removeTotalPlayers(groups[lastGroup].length);
       delete existingGroups[lastGroup];
       return existingGroups;
     });
@@ -171,11 +173,11 @@ export function Home() {
   // };
 
   const handleRemoPlayer = (index: number, category: string) => {
-    if (grupos[category].length > 0) {
+    if (groups[category].length > 0) {
       removeTotalPlayers(1);
-      const updatePlayers = [...grupos[category]];
+      const updatePlayers = [...groups[category]];
       updatePlayers.splice(index, 1);
-      setGrupos(prevGrupos => {
+      setGroups(prevGrupos => {
         return {...prevGrupos, [category]: updatePlayers};
       });
     }
@@ -212,7 +214,7 @@ export function Home() {
             <XSquare stroke="red" fill="#fff" width={24} />
           </WrapperIcon>
         </WrapperGroups>
-        {Object.entries(grupos).map(([grupo, jogadores], index) => (
+        {Object.entries(groups).map(([grupo, jogadores], index) => (
           <Player
             key={index}
             listPlayers={jogadores}
@@ -226,7 +228,7 @@ export function Home() {
         <Info>Melhores e piores devem ser iguais</Info>
         <Info>Jogadores por time: 4</Info>
         <Info>Nenhuma lista deve está vazia</Info>
-        <Info>Total de times: {Math.ceil(totalPlayers / 4)}</Info>
+        <Info>Total de times: {Object.keys(groups).length}</Info>
         <Title>Total de jogadores: {totalPlayers}</Title>
         {isVisible ? (
           <Button title="Limpar times" onPress={handleCleanTeams} />
