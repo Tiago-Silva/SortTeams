@@ -53,7 +53,7 @@ export function Home() {
     setGroups(prevGrupos => {
       addTotalPlayers(1);
       const gruposExistentes = {...prevGrupos};
-      const novoJogador = 'Jogador ' + (gruposExistentes[grupo].length + 1);
+      const novoJogador = '';
       gruposExistentes[grupo].push(novoJogador);
       return gruposExistentes;
     });
