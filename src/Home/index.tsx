@@ -9,6 +9,8 @@ import {
   WrapperGroups,
   WrapperIcon,
   TextIcon,
+  WrapperInput,
+  InputTeams,
 } from './styles';
 import React, {useState} from 'react';
 import {Button, Alert} from 'react-native';
@@ -30,7 +32,7 @@ export function Home() {
     'Grupo 1': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
     'Grupo 2': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
   });
-  // const [times, seTimes] = useState<number>(2);
+  const [times, seTimes] = useState<number>(2);
 
   const updateList: Record<string, string[]> = {
     best: bestPlayers,
@@ -225,10 +227,18 @@ export function Home() {
             onRemovePlayer={handleRemoPlayer}
           />
         ))}
-        <Info>Melhores e piores devem ser iguais</Info>
-        <Info>Jogadores por time: 4</Info>
+        {/*<Info>Melhores e piores devem ser iguais</Info>*/}
+        {/*<Info>Quantidade de Times: </Info>*/}
         <Info>Nenhuma lista deve está vazia</Info>
-        <Info>Total de times: {Object.keys(groups).length}</Info>
+        <WrapperInput>
+          <TextIcon>Adicione o Total de times: </TextIcon>
+          <InputTeams
+            placeholder={times.toString()}
+            keyboardType="numeric"
+            value={times.toString()}
+            onChangeText={(text: string) => seTimes(Number(text))}
+          />
+        </WrapperInput>
         <Title>Total de jogadores: {totalPlayers}</Title>
         {isVisible ? (
           <Button title="Limpar times" onPress={handleCleanTeams} />
