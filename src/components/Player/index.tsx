@@ -30,6 +30,7 @@ export function Player({
       </Header>
       {listPlayers.map((player, index) => (
         <PlayerList
+          key={index}
           index={index}
           player={player}
           category={category}

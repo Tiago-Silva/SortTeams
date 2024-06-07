@@ -6,7 +6,9 @@ import {
   Footer,
   FooterInfo,
   Info,
-  TimesInput,
+  WrapperGroups,
+  WrapperIcon,
+  TextIcon,
 } from './styles';
 import React, {useState} from 'react';
 import {Button, Alert} from 'react-native';
@@ -14,7 +16,7 @@ import {Button, Alert} from 'react-native';
 import {shuffle} from 'lodash';
 import {Player} from '../components/Player';
 import {TeamsDrawn} from '../components/TeamsDrawn';
-// import {CATEGORIES} from '../components/PlayerDetail';
+import {PlusSquare, XSquare} from 'react-native-feather';
 
 export function Home() {
   const [bestPlayers, setBestPlayers] = useState<string[]>([]);
@@ -28,7 +30,7 @@ export function Home() {
     'Grupo 1': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
     'Grupo 2': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
   });
-  const [times, seTimes] = useState<number>(2);
+  // const [times, seTimes] = useState<number>(2);
 
   const updateList: Record<string, string[]> = {
     best: bestPlayers,
@@ -45,7 +47,7 @@ export function Home() {
     normal: setNormalPlayers,
   };
 
-  const adicionarJogador = (grupo: string) => {
+  const handleAddPlayer = (grupo: string) => {
     setGrupos(prevGrupos => {
       const gruposExistentes = {...prevGrupos};
       const novoJogador = 'Jogador ' + (gruposExistentes[grupo].length + 1);
@@ -54,12 +56,22 @@ export function Home() {
     });
   };
 
-  const adicionarGrupo = () => {
+  const handleAddGroup = () => {
     setGrupos(prevGrupos => {
       const novoGrupo = {...prevGrupos}; // copia o estado atual dos grupos
       const novoNomeGrupo = 'Grupo ' + (Object.keys(novoGrupo).length + 1); // cria o nome do novo grupo
       novoGrupo[novoNomeGrupo] = []; // adiciona o novo grupo
       return novoGrupo; // atualiza o estado dos grupos
+    });
+  };
+
+  const handleRemoveGroup = () => {
+    setGrupos(prevGrupos => {
+      const existingGroups = {...prevGrupos};
+      const keyGroups = Object.keys(existingGroups);
+      const lastGroup = keyGroups[keyGroups.length - 1];
+      delete existingGroups[lastGroup];
+      return existingGroups;
     });
   };
 
@@ -144,19 +156,19 @@ export function Home() {
     setTeams(dividedTeams);
   };
 
-  const handleAddPlayer = (category: string) => {
-    if (updateList[category].length >= 16) {
-      createAlertNotification(
-        'Atenção!!!',
-        'A quantidade não pode ser maior que 16',
-      );
-      return;
-    }
-    addTotalPlayers(1);
-    setList[category](prevPlayers => {
-      return [...prevPlayers, ''];
-    });
-  };
+  // const handleAddPlayer = (category: string) => {
+  //   if (updateList[category].length >= 16) {
+  //     createAlertNotification(
+  //       'Atenção!!!',
+  //       'A quantidade não pode ser maior que 16',
+  //     );
+  //     return;
+  //   }
+  //   addTotalPlayers(1);
+  //   setList[category](prevPlayers => {
+  //     return [...prevPlayers, ''];
+  //   });
+  // };
 
   const handleRemoPlayer = (index: number, category: string) => {
     if (grupos[category].length > 0) {
@@ -191,39 +203,26 @@ export function Home() {
   return (
     <Container>
       <Body contentContainerStyle={{flexGrow: 1}}>
-        <TimesInput
-          placeholder="Quantidade de times"
-          value={times.toString()}
-          onChangeText={(text: string) => seTimes(Number(text))}
-        />
+        <WrapperGroups>
+          <TextIcon>Grupos: adicione ou remova</TextIcon>
+          <WrapperIcon onPress={() => handleAddGroup()}>
+            <PlusSquare stroke="blue" fill="#fff" width={24} />
+          </WrapperIcon>
+          <WrapperIcon onPress={() => handleRemoveGroup()}>
+            <XSquare stroke="red" fill="#fff" width={24} />
+          </WrapperIcon>
+        </WrapperGroups>
         {Object.entries(grupos).map(([grupo, jogadores], index) => (
           <Player
             key={index}
             listPlayers={jogadores}
             title={grupo}
             category={grupo}
-            addPlayer={adicionarJogador}
+            addPlayer={handleAddPlayer}
             addToCategory={handleAddPlayerToCategory}
             onRemovePlayer={handleRemoPlayer}
           />
         ))}
-
-        {/*<Player*/}
-        {/*  listPlayers={worstPlayers}*/}
-        {/*  title="Jogadores medianos:"*/}
-        {/*  category="worst"*/}
-        {/*  addPlayer={handleAddPlayer}*/}
-        {/*  addToCategory={handleAddPlayerToCategory}*/}
-        {/*  onRemovePlayer={handleRemoPlayer}*/}
-        {/*/>*/}
-        {/*<Player*/}
-        {/*  listPlayers={normalPlayers}*/}
-        {/*  title="Jogadores normais:"*/}
-        {/*  category="normal"*/}
-        {/*  addPlayer={handleAddPlayer}*/}
-        {/*  addToCategory={handleAddPlayerToCategory}*/}
-        {/*  onRemovePlayer={handleRemoPlayer}*/}
-        {/*/>*/}
         <Info>Melhores e piores devem ser iguais</Info>
         <Info>Jogadores por time: 4</Info>
         <Info>Nenhuma lista deve está vazia</Info>
