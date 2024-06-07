@@ -72,3 +72,19 @@ export const WrapperIcon = styled.TouchableOpacity`
   flex: 1;
   align-self: center;
 `;
+
+export const WrapperInput = styled.View`
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+  background-color: #f1e7e7;
+  border-radius: 15px;
+  padding: 1px 1px 1px 8px;
+`;
+
+export const InputTeams = styled.TextInput`
+  flex: 1;
+  font-size: 20px;
+`;
