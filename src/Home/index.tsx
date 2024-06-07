@@ -206,7 +206,9 @@ export function Home() {
           />
         ))}
         {/*<Info>Melhores e piores devem ser iguais</Info>*/}
-        {/*<Info>Quantidade de Times: </Info>*/}
+        <Info>
+          Quantidade de jogadores no grupo deve ser igual a quantidade de times
+        </Info>
         <Info>Nenhuma lista deve está vazia</Info>
         <WrapperInput>
           <TextIcon>Adicione o Total de times: </TextIcon>
