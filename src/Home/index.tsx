@@ -29,8 +29,8 @@ export function Home() {
   const [totalPlayers, setTotalPlayers] = useState<number>(8);
 
   const [groups, setGroups] = useState<Record<string, string[]>>({
-    'Grupo 1': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
-    'Grupo 2': ['Jogador 1', 'Jogador 2', 'Jogador 3', 'Jogador 4'],
+    'Grupo 1': ['', '', '', ''],
+    'Grupo 2': ['', '', '', ''],
   });
   const [totalTeams, seTotalTeams] = useState<number>(2);
 
