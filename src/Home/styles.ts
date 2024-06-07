@@ -1,52 +1,58 @@
-import styled from "styled-components/native";
-
+import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    background: ${props => props.theme.background};
-    flex: 1;
+  background: ${props => props.theme.background};
+  flex: 1;
 `;
 
 export const Body = styled.ScrollView`
-    flex-direction: column;
-    min-height: '100%';
-    padding: 20px;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 20px;
 `;
 
 export const Title = styled.Text`
-    color: ${props => props.theme.color};
-    font-size: 20px;
-    font-weight: bold;
+  color: ${props => props.theme.color};
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 export const Info = styled.Text`
-    color: ${props => props.theme.color};
-    font-size: 20px;
-    margin-top: 10px;
-    opacity: 0.7;
+  color: ${props => props.theme.color};
+  font-size: 20px;
+  margin-top: 10px;
+  opacity: 0.7;
 `;
 
 export const ImageBack = styled.ImageBackground`
-    z-index: -1;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.3;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.3;
 `;
 
 export const Footer = styled.View`
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 `;
 
 export const FooterInfo = styled.Text`
-    color: ${props => props.theme.color};
-    font-size: 12px;
-    color: gray;
-    opacity: 0.8;
+  color: ${props => props.theme.color};
+  font-size: 12px;
+  color: gray;
+  opacity: 0.8;
+`;
+
+export const TimesInput = styled.TextInput.attrs(props => ({
+  placeholderTextColor: props.theme.color,
+}))`
+  align-items: center;
+  color: ${props => props.theme.color};
 `;

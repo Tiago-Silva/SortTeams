@@ -10,13 +10,9 @@ export const CATEGORIES = {
 interface PropsDetails {
   index: number;
   player: string;
-  category: keyof typeof CATEGORIES;
-  addToCategory: (
-    text: string,
-    index: number,
-    category: keyof typeof CATEGORIES,
-  ) => void;
-  onRemovePlayer: (index: number, category: keyof typeof CATEGORIES) => void;
+  category: string;
+  addToCategory: (text: string, index: number, category: string) => void;
+  onRemovePlayer: (index: number, category: string) => void;
 }
 
 export function PlayerList({
@@ -26,15 +22,11 @@ export function PlayerList({
   addToCategory,
   onRemovePlayer,
 }: PropsDetails) {
-  const handleNameChange = (
-    text: string,
-    index: number,
-    category: keyof typeof CATEGORIES,
-  ) => {
+  const handleNameChange = (text: string, index: number, category: string) => {
     addToCategory(text, index, category);
   };
 
-  const handleRemove = (index: number, category: keyof typeof CATEGORIES) => {
+  const handleRemove = (index: number, category: string) => {
     onRemovePlayer(index, category);
   };
 
